@@ -89,7 +89,7 @@ app.post('/send-greeting', async (req, res) => {
                     },
                     {
                         Email: 'seth.tnv@gmail.com', // Second recipient
-                        Name: "Seth",
+                        Name: "Tanvi Seth",
                     },
                 ],
                 Subject: `Greeting from ${name}`, // Subject line
