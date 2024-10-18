@@ -1,3 +1,28 @@
+const express = require('express');
+const path = require('path');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const mailjet = require('node-mailjet');
+require('dotenv').config(); // Load environment variables
+
+const app = express();
+const port = process.env.PORT || 5001;
+
+// Middleware
+// Only enable CORS in development if needed (when React is served on a different port)
+if (process.env.NODE_ENV === 'development') {
+  app.use(cors());
+}
+app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'build')));
+
+// Create Mailjet client using environment variables
+const mailJetClient = mailjet.apiConnect(
+  process.env.MAILJET_API_KEY,
+  process.env.MAILJET_API_SECRET
+);
+
+// POST route to send emails
 app.post('/send-greeting', async (req, res) => {
     const { name, greeting } = req.body;
 
@@ -82,4 +107,15 @@ app.post('/send-greeting', async (req, res) => {
         console.error('Error sending email:', error);
         res.status(500).json({ error: 'Failed to send greeting' });
     }
+});
+
+
+// Serve React app (build files)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
+// Start the server
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
 });
