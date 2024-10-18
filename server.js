@@ -18,6 +18,7 @@ const mailJetClient = mailjet.apiConnect(process.env.MAILJET_API_KEY, process.en
 
 // POST route to send emails
 app.post('/send-greeting', async (req, res) => {
+    console.log(req);
     const { name, greeting } = req.body;
 
     const htmlContent = `
