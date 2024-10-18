@@ -7,8 +7,7 @@ const mailjet = require('node-mailjet');
 require('dotenv').config(); // Load environment variables
 
 const app = express();
-const port = 5001;
-
+const port = process.env.PORT || 5001;
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
